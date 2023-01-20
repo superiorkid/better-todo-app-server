@@ -1,5 +1,5 @@
 import express, {Router} from 'express'
-import {createNewTodo, getAllTodo} from "./todo.controller";
+import {createNewTodo, deleteTodo, getAllTodo, getTodoById, updateTodo} from "./todo.controller";
 import {body} from 'express-validator'
 
 const router = Router()
@@ -16,5 +16,20 @@ router.post(
         .withMessage("todo is required"),
     createNewTodo
 )
+router.get('/:id', getTodoById)
+router.delete('/:id', deleteTodo)
+router.put(
+    "/:id",
+    body("title")
+        .not()
+        .isEmpty()
+        .withMessage("title is required"),
+    body('todo')
+        .not()
+        .isEmpty()
+        .withMessage("todo is required"),
+    updateTodo
+)
+
 
 export default router
