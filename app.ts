@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 
 import connectDB from "./src/config/database";
 import TodoRoute from "./src/todos/todo.route";
+import AuthRoute from "./src/auth/auth.route";
 
 const app: Express = express()
 
@@ -17,6 +18,7 @@ mongoose.set('strictQuery', false)
 connectDB()
 
 app.use('/todos', TodoRoute)
+app.use('/auth', AuthRoute)
 
 app.get('/', (req:Request, res: Response) => {
     res.status(200).json({
