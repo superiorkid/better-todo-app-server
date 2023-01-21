@@ -1,6 +1,7 @@
-import {register, login} from "./auth.controller";
+import {register, login, getUserInfo} from "./user.controller";
 import {Router} from "express";
 import {body} from "express-validator";
+import authMiddleware from "../middlewares/auth.middleware";
 
 const router = Router()
 
@@ -12,5 +13,6 @@ router.post(
     register
 )
 router.post("/login", login)
+router.get('/user-info', authMiddleware, getUserInfo)
 
 export default router

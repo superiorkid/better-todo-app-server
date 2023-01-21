@@ -1,11 +1,14 @@
 import {Request, Response} from "express";
 import {validationResult} from "express-validator";
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+import jwt, {Secret} from 'jsonwebtoken'
+import dotenv from "dotenv";
 
-import AuthModel from "./auth.model";
+import AuthModel from "./user.model";
 import IAuth from "../types/IAuth";
+import CustomRequest from "../types/ICustomRequest";
 
+dotenv.config()
 
 export const register = async (req: Request, res: Response) => {
     const { username, email, password }  = req.body
@@ -62,7 +65,7 @@ export const login = async (req: Request, res: Response) => {
     try {
 
         // check if user exists
-        const user: IAuth = await AuthModel.findOne({email})
+        const user = await AuthModel.findOne({email}) as IAuth
         if (!user) {
             return res.status(404).json({
                 code: 404,
@@ -82,8 +85,7 @@ export const login = async (req: Request, res: Response) => {
             })
         }
 
-        const secret: string = process.env.SECRET_KEY
-        const token = jwt.sign({id: user._id}, secret, {
+        const token = jwt.sign({id: user._id}, process.env.SECRET_KEY as Secret, {
             expiresIn: "1d"
         })
 
@@ -103,5 +105,20 @@ export const login = async (req: Request, res: Response) => {
             message: "Something went wrong"
         })
     }
+}
+
+
+export const getUserInfo = async (req: CustomRequest, res: Response) => {
+    const user = req.userId
+    if (!user) {
+        return res.json({
+            message: "user is empty"
+        })
+    }
+
+    res.json({
+        message: "user is logged in",
+        id: user
+    })
 }
 
