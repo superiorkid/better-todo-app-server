@@ -1,10 +1,21 @@
 import express, {Router} from 'express'
-import {createNewTodo, deleteTodo, getAllTodo, getTodoById, updateTodo} from "./todo.controller";
+import {
+    createNewTodo,
+    deleteTodo,
+    getAllTodo,
+    getCompleteTodo,
+    getIncompleteTodo,
+    getTodoById,
+    updateTodo
+} from "./todo.controller";
 import {body} from 'express-validator'
+import authMiddleware from "../middlewares/auth.middleware";
 
 const router = Router()
 
-router.get('/', getAllTodo)
+router.get('/',authMiddleware, getAllTodo)
+router.get('/complete', authMiddleware, getCompleteTodo)
+router.get('/incomplete', authMiddleware, getIncompleteTodo)
 router.post(
     '/',
     body('title')
@@ -14,6 +25,7 @@ router.post(
     body('todo')
         .not().isEmpty()
         .withMessage("todo is required"),
+    authMiddleware,
     createNewTodo
 )
 router.get('/:id', getTodoById)

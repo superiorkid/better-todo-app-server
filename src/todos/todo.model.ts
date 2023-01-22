@@ -6,7 +6,8 @@ const TodoSchema = new Schema<ITodo>({
     todo: {type: String, required: true},
     is_completed: {type: Boolean, default:false},
     created_at: {type: Date, default:Date.now},
-    updated_at: {type: Date, default:Date.now}
+    updated_at: {type: Date, default:Date.now},
+    author: {type: Schema.Types.ObjectId, ref: "User"}
 })
 
 export default model("Todo", TodoSchema)

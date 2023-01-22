@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 import jwt, {Secret} from 'jsonwebtoken'
 import dotenv from "dotenv";
 
-import AuthModel from "./user.model";
+import UserModel from "./user.model";
 import IAuth from "../types/IAuth";
 import CustomRequest from "../types/ICustomRequest";
 
@@ -24,7 +24,7 @@ export const register = async (req: Request, res: Response) => {
 
     try {
         // check if email is exists
-        const userExists = await AuthModel.findOne({email})
+        const userExists = await UserModel.findOne({email})
         if (userExists) {
             return res.status(409).json({
                 code: 409,
@@ -36,7 +36,7 @@ export const register = async (req: Request, res: Response) => {
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
 
-        const newUser: IAuth = new AuthModel({
+        const newUser: IAuth = new UserModel({
             username,
             email,
             password: hashedPassword
@@ -65,7 +65,7 @@ export const login = async (req: Request, res: Response) => {
     try {
 
         // check if user exists
-        const user = await AuthModel.findOne({email}) as IAuth
+        const user = await UserModel.findOne({email}) as IAuth
         if (!user) {
             return res.status(404).json({
                 code: 404,
