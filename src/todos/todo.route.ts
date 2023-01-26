@@ -32,15 +32,6 @@ router.get('/:id', getTodoById)
 router.delete('/:id', deleteTodo)
 router.put(
     "/:id",
-    body("title")
-        .not()
-        .isEmpty()
-        .withMessage("title is required"),
-    body('todo')
-        .not()
-        .isEmpty()
-        .withMessage("todo is required"),
-    authMiddleware,
     updateTodo
 )
 

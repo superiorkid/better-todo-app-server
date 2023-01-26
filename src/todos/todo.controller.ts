@@ -122,15 +122,9 @@ export const deleteTodo = async (req: Request, res: Response) => {
 
 export const updateTodo = async (req: Request, res: Response) => {
     const {id} = req.params
-    const todo: ITodo = {...req.body, updated_at: new Date}
-
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            code: 400,
-            status: 'BAD_REQUEST',
-            message: errors.array()
-        })
+    const todo = {
+        is_completed: true,
+        updated_at: new Date()
     }
 
     try {
