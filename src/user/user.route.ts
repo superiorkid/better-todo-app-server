@@ -10,6 +10,13 @@ router.post(
     body("username").not().isEmpty().withMessage("Username required"),
     body('email').isEmail(),
     body('password').isLength({min: 5}).withMessage("password length min 5"),
+    body("confirm_password").custom((value, {req}) => {
+        if (value !== req.body.password) {
+            throw new Error("Password confirmation does not match password")
+        }
+
+        return true
+    }),
     register
 )
 router.post("/login", login)

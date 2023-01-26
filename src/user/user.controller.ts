@@ -18,7 +18,7 @@ export const register = async (req: Request, res: Response) => {
         return res.status(400).json({
             code: 400,
             status: 'BAD_REQUEST',
-            errors: errors.array()
+            message: errors.array()
         })
     }
 
@@ -29,7 +29,7 @@ export const register = async (req: Request, res: Response) => {
             return res.status(409).json({
                 code: 409,
                 status: "CONFLICT",
-                message: "[❌] User already registered"
+                message: "User already registered"
             })
         }
 
@@ -46,7 +46,7 @@ export const register = async (req: Request, res: Response) => {
         res.status(201).json({
             code: 201,
             status: "CREATED",
-            message: "[✅] User created successfully"
+            message: "User created successfully"
         })
 
     } catch (error) {
@@ -70,7 +70,7 @@ export const login = async (req: Request, res: Response) => {
             return res.status(404).json({
                 code: 404,
                 status: "NOT_FOUND",
-                message: "[❌] User not found"
+                message: "User not found"
             })
         }
 
@@ -81,7 +81,7 @@ export const login = async (req: Request, res: Response) => {
             return res.status(401).json({
                 code: 401,
                 status: 'UNAUTHORIZED',
-                message: "[❌] Password incorrect"
+                message: "Password incorrect"
             })
         }
 
@@ -93,7 +93,7 @@ export const login = async (req: Request, res: Response) => {
             code: 200,
             status: "OK",
             message: "User logging in successfully",
-            body: {
+            data: {
                 token
             }
         })
@@ -108,8 +108,8 @@ export const login = async (req: Request, res: Response) => {
 }
 
 
-export const getUserInfo = async (req: CustomRequest, res: Response) => {
-    const user = req.userId
+export const getUserInfo = async (req: Request, res: Response) => {
+    const user = req.body.userId
     if (!user) {
         return res.json({
             message: "user is empty"

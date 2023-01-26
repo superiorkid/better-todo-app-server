@@ -1,6 +1,7 @@
 import express, {Express, Request, Response} from 'express'
 import mongoose from "mongoose"
 import bodyParser from "body-parser";
+import Cors from 'cors'
 
 import connectDB from "./src/config/database";
 import TodoRoute from "./src/todos/todo.route";
@@ -12,6 +13,7 @@ const app: Express = express()
 app.use(bodyParser.urlencoded({extended: false}))
 // parse application/json
 app.use(bodyParser.json())
+app.use(Cors())
 
 mongoose.set('strictQuery', false)
 

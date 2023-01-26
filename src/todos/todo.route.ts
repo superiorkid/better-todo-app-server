@@ -40,6 +40,7 @@ router.put(
         .not()
         .isEmpty()
         .withMessage("todo is required"),
+    authMiddleware,
     updateTodo
 )
 
