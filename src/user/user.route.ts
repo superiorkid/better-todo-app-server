@@ -20,6 +20,6 @@ router.post(
     register
 )
 router.post("/login", login)
-router.get('/user-info', authMiddleware, getUserInfo)
+router.get('/info', authMiddleware, getUserInfo)
 
 export default router

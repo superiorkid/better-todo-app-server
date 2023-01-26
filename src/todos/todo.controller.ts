@@ -27,7 +27,7 @@ export const getAllTodo = async (req: Request, res:Response) => {
 
 export const createNewTodo = async (req: Request, res: Response) => {
     const id = req.body.userId
-    const { title, todo } = req.body
+    const { title, todo} = req.body
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {

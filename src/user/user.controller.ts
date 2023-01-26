@@ -109,16 +109,22 @@ export const login = async (req: Request, res: Response) => {
 
 
 export const getUserInfo = async (req: Request, res: Response) => {
-    const user = req.body.userId
+    const id: string = req.body.userId
+    const user = await UserModel.findOne({_id: id}) as IAuth
+
     if (!user) {
-        return res.json({
-            message: "user is empty"
+        return res.status(404).json({
+            code: 404,
+            status: 'NOT_FOUND',
+            message: "User not found",
         })
     }
 
-    res.json({
-        message: "user is logged in",
-        id: user
-    })
+   res.status(200).json({
+       code: 200,
+       status: "OK",
+       message: "User has found",
+       data: user
+   })
 }
 
